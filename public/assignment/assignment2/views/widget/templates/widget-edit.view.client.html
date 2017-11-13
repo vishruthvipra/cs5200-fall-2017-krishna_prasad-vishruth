@@ -1,0 +1,167 @@
+
+    <nav id="navi-header" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+
+            <div class="navbar-text pull-left no-left-margin">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+            </div>
+
+            <div class="navbar-text pull-right">
+                <a ng-click="model.updateWidget(model.widget)">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </a>
+            </div>
+
+            <div class="navbar-header">
+                <a class="navbar-brand"
+                   href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{model.widgetId}}">
+                    Widget Edit
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <br><br>
+
+        <div ng-show="model.message" class="alert alert-success" role="alert">
+            <strong>Success!</strong> {{model.message}}
+        </div>
+
+        <div ng-show="model.error" class="alert alert-danger" role="alert">
+            <strong>Error!</strong> {{model.error}}
+        </div>
+
+            <!--<form>-->
+                <label for="name">Name</label>
+                <input ng-model="model.widget.name" type="text" class="form-control" id="name" placeholder="Name">
+
+                <label for="texts">Text</label>
+                <input ng-model="model.widget.text"
+                       type="text" class="form-control" id="texts" placeholder="Type Here">
+
+                <div ng-switch="model.widgetId">
+                    <div ng-switch-when="HEADING">
+                        <label for="nu">Size</label>
+                        <input ng-model="model.widget.size" type="number" class="form-control" id="nu" placeholder="Size">
+                    </div>
+
+                    <div ng-switch-when="HTML">
+                        <label for="n">Size</label>
+                        <input ng-model="model.widget.size" type="number" class="form-control" id="n" placeholder="Size">
+
+                        <div ng-model="model.widget.text"
+                             text-angular
+                             ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'], ['ul','ol'],['justifyLeft','justifyCenter','justifyRight','justifyFull'], ['indent','outdent'],['html']]">
+                        </div>
+                    </div>
+
+
+                    <div ng-switch-when="TEXT">
+                        Rows
+                        <input ng-model="model.widget.rows" class="form-control" type="number"/>
+                        Placeholder
+                        <input ng-model="model.widget.placeholder" class="form-control"/>
+                        Formatted
+                        <input ng-model="model.widget.formatted" type="checkbox"/>
+                    </div>
+
+
+                    <div ng-switch-when="IMAGE">
+
+                        <form action="/api/upload"  method="post" enctype="multipart/form-data">
+                            <label for="linked">URL</label>
+                            <input ng-model="model.widget.url" type="url" class="form-control" id="linked" placeholder="image URL">
+                            <label for="img-widthed">Width</label>
+                            <input ng-model="model.widget.width" type="text" class="form-control" id="img-widthed" placeholder="image width">
+                            <label for="uploaded">Upload</label>
+                            <input  id= "uploaded" name="myFile"   type="file" class="form-control"/>
+                            <input  name="width"    value="{{model.widget.width}}" style="display: none"/>
+                            <input  name="widgetId" value="{{model.widget._id}}"   style="display: none"/>
+                            <input  name="userId" value="{{model.userId}}"   style="display: none"/>
+                            <input  name="pageId" value="{{model.pageId}}"   style="display: none"/>
+                            <input  name="websiteId" value="{{model.websiteId}}"   style="display: none"/>
+
+                            <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{model.widgetId}}/widget-flickr-search"
+                               type="submit" class="btn btn-block btn-info">Search</a>
+
+                            <button type="submit" class="btn btn-block btn-primary">Upload Image</button>
+                        </form>
+                        <h6></h6>
+                    </div>
+
+                    <div ng-switch-when="YOUTUBE">
+                        <div class="form-group">
+                            <label for="linky">URL</label>
+                            <input ng-model="model.widget.url" type="url" class="form-control" id="linky" placeholder="image URL">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="img-widthy">Width</label>
+                            <input ng-model="model.widget.width" type="text" class="form-control" id="img-widthy" placeholder="image width">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div ng-switch="model.widget.type">
+                    <div ng-switch-when="HEADING">
+                        <label for="nums">Size</label>
+                        <input ng-model="model.widget.size" type="number" class="form-control" id="nums" placeholder="Size">
+                    </div>
+
+                    <div ng-switch-when="HTML">
+                        <label for="num">Size</label>
+                        <input ng-model="model.widget.size" type="number" class="form-control" id="num" placeholder="Size">
+                    </div>
+
+                    <div ng-switch-when="IMAGE">
+
+                        <form action="/api/upload"  method="post" enctype="multipart/form-data">
+                            <label for="links">URL</label>
+                            <input ng-model="model.widget.url" type="url" class="form-control" id="links" placeholder="image URL">
+                            <label for="img-widths">Width</label>
+                            <input ng-model="model.widget.width" type="text" class="form-control" id="img-widths" placeholder="image width">
+                            <label for="upload">Upload</label>
+                            <input  id= "upload" name="myFile"   type="file" class="form-control"/>
+                            <input  name="width"    value="{{model.widget.width}}" style="display: none"/>
+                            <input  name="widgetId" value="{{model.widget._id}}"   style="display: none"/>
+                            <input  name="userId" value="{{model.userId}}"   style="display: none"/>
+                            <input  name="pageId" value="{{model.pageId}}"   style="display: none"/>
+                            <input  name="websiteId" value="{{model.websiteId}}"   style="display: none"/>
+
+                            <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{model.widgetId}}/widget-flickr-search"
+                               type="submit" class="btn btn-block btn-info">Search</a>
+
+                            <button type="submit" class="btn btn-block btn-primary">Upload Image</button>
+                        </form>
+                        <h6></h6>
+                    </div>
+
+                    <div ng-switch-when="YOUTUBE">
+                        <div class="form-group">
+                            <label for="link">URL</label>
+                            <input ng-model="model.widget.url" type="url" class="form-control" id="link" placeholder="image URL">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="img-width">Width</label>
+                            <input ng-model="model.widget.width" type="text" class="form-control" id="img-width" placeholder="image width">
+                        </div>
+                    </div>
+                </div>
+            <!--</form>-->
+
+        <a class="btn btn-danger btn-block" ng-click="model.deleteWidget()">Delete</a>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/user/{{model.userId}}"><span class="pull-right glyphicon glyphicon-home"></span></a></li>
+            </ul>
+        </div>
+    </nav>

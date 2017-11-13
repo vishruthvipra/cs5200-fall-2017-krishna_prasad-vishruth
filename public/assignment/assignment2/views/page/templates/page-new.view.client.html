@@ -1,0 +1,100 @@
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="row container-fluid">
+        <div class="col-sm-4">
+            <div class="navbar-text pull-left no-left-margin">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+            </div>
+
+            <div class="hidden-xs">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#/user/{{model.userId}}/website/{{model.websiteId}}/page">Pages</a>
+                </div>
+
+                <div class="navbar-text pull-right">
+                    <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/new">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-8">
+
+            <div class="navbar-text pull-right">
+                <a ng-click="model.createPage(model.page)"><span class="glyphicon glyphicon-ok"></span></a>
+            </div>
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/new">New Page</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <h1></h1>
+
+    <div ng-show="model.message" class="alert alert-success" role="alert">
+        <strong>Success!</strong> {{model.message}}
+    </div>
+
+    <div ng-show="model.error" class="alert alert-danger" role="alert">
+        <strong>Error!</strong> {{model.error}}
+    </div>
+
+    <form>
+        <div class="form-group visible-xs">
+            <label for="name">Page Name</label>
+            <input ng-model="model.page.name"
+                   type="text" class="form-control" id="name" placeholder="Page Name">
+
+            <label for="desc">Page Description</label>
+            <textarea ng-model="model.page.description"
+                      class="form-control" id="desc" rows="3" placeholder="Page Description">
+                </textarea>
+        </div>
+
+        <div class="form-group hidden-xs">
+
+            <div class="col-xs-4 ">
+
+                <div ng-repeat="page in model.pages" class="container-fluid">
+                    <form>
+                        <br>
+                        <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}/widget">
+                            {{page.name}}
+                        </a>
+                        <a class="cog-right"
+                           href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </a>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-xs-8">
+                <h1></h1>
+                <label for="nameb">Page Name</label>
+                <input ng-model="model.page.name"
+                       type="text" class="form-control" id="nameb" placeholder="Page Name">
+
+                <label for="descb">Page Description</label>
+                <textarea ng-model="model.page.description"
+                          class="form-control" id="descb" rows="3" placeholder="Page Description">
+                </textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#/user/{{model.userId}}"><span class="pull-right glyphicon glyphicon-home"></span></a></li>
+        </ul>
+    </div>
+</nav>
