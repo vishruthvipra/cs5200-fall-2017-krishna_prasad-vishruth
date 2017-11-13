@@ -23,20 +23,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // configure a public directory to host static content
-var connectionString = 'mongodb://assgn-user:assgn-pass@ds129090.mlab.com:29090/assgn';
-
-//var connectionString = 'mongodb://127.0.0.1:27017/assgn';
-// mongoose.connect(connectionString);
-// if(process.env.MLAB_USERNAME) {
-//     connectionString = process.env.MLAB_USERNAME + ":" +
-//         process.env.MLAB_PASSWORD + "@" +
-//         process.env.MLAB_HOST + ':' +
-//         process.env.MLAB_PORT + '/' +
-//         process.env.MLAB_APP_NAME;
-// }
-//
-
-console.log(connectionString);
+var connectionString = 'mongodb://username:pass@ds257485.mlab.com:57485/cs5200hospitaldb';
+console.log("Connected to db");
 mongoose.connect(connectionString);
 
 require("./serverfiles/models.server.js")(app,mongoose);
