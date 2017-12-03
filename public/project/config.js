@@ -77,5 +77,10 @@
                 controller: "FlickrImageSearchController",
                 controllerAs: "model"
             })
+            .otherwise("/login", {
+            templateUrl: "views/user/templates/login.view.client.html",
+            controller: "LoginController",
+            controllerAs: "model"
+        })
     }
 })();

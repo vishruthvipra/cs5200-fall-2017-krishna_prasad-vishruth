@@ -1,7 +1,7 @@
 /**
  * Created by vishruthkrishnaprasad on 20/2/17.
  */
-module.exports = function (app, mongoose) {
+module.exports = function (app, mongoose,passport) {
     var userModel = require("./model/user/user.model.server.js")(app, mongoose);
     var websiteModel = require("./model/website/website.model.server")(app, mongoose);
     var pageModel = require("./model/page/page.model.server")(app, mongoose);
@@ -14,7 +14,7 @@ module.exports = function (app, mongoose) {
         widgetModel: widgetModel
     };
 
-    require("./services/user.service.server")(app, model);
+    require("./services/user.service.server")(app, model, passport);
     require("./services/website.service.server")(app, model);
     require("./services/page.service.server")(app, model);
     require("./services/widget.service.server")(app, model);

@@ -89,7 +89,7 @@ module.exports = function (app, model) {
         //     }
         // };
 
-        var url = "/project/assignment2/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget";
+        var url = "/project1/project/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget";
 
         res.redirect(url);
     }

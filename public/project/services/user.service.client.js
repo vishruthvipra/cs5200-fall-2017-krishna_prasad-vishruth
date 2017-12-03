@@ -20,7 +20,7 @@
         return api;
 
         function createUser(user) {
-            return $http.post("/api/user", user);
+            return $http.post("/api/register", user);
         }
 
         function findUserById(userId) {
