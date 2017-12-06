@@ -1,0 +1,113 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/profile">
+            <span class="pull-right glyphicon glyphicon-user"></span>
+        </a>
+        <a class="navbar-brand" ng-click="model.logout()">
+            <span class="pull-right glyphicon glyphicon-log-out"></span>
+        </a>
+    </div>
+
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+    <div class="col-xs-3">
+        <button class="btn btn-block btn-primary wrap-text" ng-click="vm.bookAppt = true;">Book a new Appointment</button>
+    </div>
+
+    <div class="col-xs-3">
+        <button class="btn btn-block btn-info wrap-text" ng-click="model.showAllAppointments()">
+            List all Appointments
+        </button>
+    </div>
+
+    <div class="col-xs-3">
+        <button class="btn btn-block btn-warning wrap-text">Update an Appointment</button>
+    </div>
+
+    <div class="col-xs-3">
+        <button class="btn btn-block btn-danger wrap-text">Delete an Appointment</button>
+    </div>
+</div>
+
+<br>
+<br>
+
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>_id</th>
+                <th>Doctor Name</th>
+                <th>Patient Name</th>
+                <th>Description</th>
+                <th>Date of Appointment</th>
+                <th>Date Created</th>
+            </tr>
+            </thead>
+
+            <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
+            <tr class="success">
+
+                <td>{{search._id}}</td>
+                <td>{{search.docName}}</td>
+                <td>{{search.patName}}</td>
+                <td>{{search.description}}</td>
+                <td>{{search.dateOfAppt}}</td>
+                <td>{{search.dateCreated}}</td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div ng-show="vm.bookAppt" class="container-fluid">
+    <br>
+    <br>
+    <hr>
+    <form>
+        <div class="form-group">
+            <label for="dname">Doctor Username</label>
+            <input ng-model="appt.docName" type="text"
+                   class="form-control" id="dname"
+                   placeholder="Doctor Name">
+
+            <label for="dname">Patient Username</label>
+            <input ng-model="appt.patName" type="text"
+                   class="form-control" id="pname"
+                   placeholder="Patient Name">
+
+            <label for="des">Description</label>
+            <textarea ng-model="appt.description" type="text"
+                   class="form-control" id="des" rows="3"
+                   placeholder="Lower neck pain">
+            </textarea>
+
+            <label for="date">Book an Appointment For</label>
+            <input ng-model="appt.dateOfAppt" type="date"
+                   class="form-control" id="date"
+                   placeholder="Appointment Date [dd/mm/yyyy]">
+        </div>
+    </form>
+    <button class="btn btn-block btn-primary" ng-click="model.makeAppointment(appt)">Book!</button>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/dashboard">
+            <span class="pull-right glyphicon glyphicon-home"></span>
+        </a>
+    </div>
+</nav>

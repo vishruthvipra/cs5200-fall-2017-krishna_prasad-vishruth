@@ -17,15 +17,16 @@
 
 
         function register(user) {
-            var newUser = UserService
+            UserService
                 .findUserByUsername(user.username)
                 .success(function (user) {
                     vm.message = "User already exists"; })
                 .error(function (err) {
+                    user.role = "ADMIN";
                     UserService
                         .createUser(user)
                         .success(function (user) {
-                            $location.url("user/" + user._id);
+                            $location.url("/dashboard");
                         })
                 });
         }

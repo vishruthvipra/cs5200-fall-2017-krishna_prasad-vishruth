@@ -6,6 +6,50 @@
         .module("WebAppMaker")
         .config(Config);
 
+    var checkLoggedIn = function($q, $timeout, $http, $location, $rootScope) {
+        return $http.get('/api/loggedin').success(function(user) {
+            $rootScope.errorMessage = null;
+            if (user !== '0') {
+                $rootScope.currentUser = user;
+            } else{
+                $location.url('/home');
+            }
+        });
+    };
+
+    var checkAdmin = function($q, $timeout, $http, $location, $rootScope) {
+        return $http.get('/api/useradmin').success(function(user) {
+            $rootScope.errorMessage = null;
+            if (user !== '0') {
+                $rootScope.currentUser = user;
+            } else{
+                $location.url('/dashboard');
+            }
+        });
+    };
+
+    var checkTAdmin = function($q, $timeout, $http, $location, $rootScope) {
+        return $http.get('/api/usertadmin').success(function(user) {
+            $rootScope.errorMessage = null;
+            if (user !== '0') {
+                $rootScope.currentUser = user;
+            } else{
+                $location.url('/dashboard');
+            }
+        });
+    };
+
+    var checkWAdmin = function($q, $timeout, $http, $location, $rootScope) {
+        return $http.get('/api/userwadmin').success(function(user) {
+            $rootScope.errorMessage = null;
+            if (user !== '0') {
+                $rootScope.currentUser = user;
+            } else{
+                $location.url('/dashboard');
+            }
+        });
+    };
+
     function Config($routeProvider, $httpProvider) {
 
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
@@ -22,65 +66,56 @@
                 controller: "RegisterController",
                 controllerAs: "model"
             })
-            .when("/user/:uid", {
+            .when("/dashboard", {
+                templateUrl: "views/dashboard/templates/dashboard.view.client.html",
+                controller: "DashboardController",
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
+            })
+            .when("/profile", {
                 templateUrl: "views/user/templates/profile.view.client.html",
                 controller: "ProfileController",
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
+            })
+            .when("/appointments", {
+                templateUrl: "views/dashboard/templates/appointment.view.client.html",
+                controller: "AppointmentController",
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
+            })
+            .when("/inbox", {
+                templateUrl: "views/email/templates/inbox.view.client.html",
+                controller: "InboxController",
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
+            })
+            .when("/compose/:sid", {
+                templateUrl: "views/email/templates/compose.view.client.html",
+                controller: "ComposeController",
+                controllerAs: "model",
+                resolve: {loggedin: checkLoggedIn }
+            })
+            .when("/appointmentlist", {
+                templateUrl: "views/appointment/templates/appointment-list.view.client.html",
+                controller: "AppointmentListController",
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
+            })
+            .when("/appointmentnew", {
+                templateUrl: "views/appointment/templates/appointment-new.view.client.html",
+                controller: "AppointmentNewController",
                 controllerAs: "model"
             })
-            .when("/user/:uid/website", {
-                templateUrl: "views/website/templates/website-list.view.client.html",
-                controller: "WebsiteListController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/new", {
-                templateUrl: "views/website/templates/website-new.view.client.html",
-                controller: "WebsiteNewController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/:wid", {
-                templateUrl: "views/website/templates/website-edit.view.client.html",
-                controller: "WebsiteEditController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/:wid/page", {
-                templateUrl: "views/page/templates/page-list.view.client.html",
-                controller: "PageListController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/:wid/page/new", {
-                templateUrl: "views/page/templates/page-new.view.client.html",
-                controller: "PageNewController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/:wid/page/:pid", {
-                templateUrl: "views/page/templates/page-edit.view.client.html",
-                controller: "PageEditController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/:wid/page/:pid/widget", {
-                templateUrl: "views/widget/templates/widget-list.view.client.html",
-                controller: "WidgetListController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/:wid/page/:pid/widget/new", {
-                templateUrl: "views/widget/templates/widget-choose.view.client.html",
-                controller: "WidgetChooseController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/:wid/page/:pid/widget/:wgid", {
-                templateUrl: "views/widget/templates/widget-edit.view.client.html",
-                controller: "WidgetEditController",
-                controllerAs: "model"
-            })
-            .when("/user/:uid/website/:wid/page/:pid/widget/:wgid/widget-flickr-search", {
-                templateUrl: "views/widget/templates/widget-flickr-search.view.client.html",
-                controller: "FlickrImageSearchController",
+            .when("/appointmentedit", {
+                templateUrl: "views/appointment/templates/appointment-edit.view.client.html",
+                controller: "AppointmentEditController",
                 controllerAs: "model"
             })
             .otherwise("/login", {
-            templateUrl: "views/user/templates/login.view.client.html",
-            controller: "LoginController",
-            controllerAs: "model"
-        })
+                templateUrl: "views/user/templates/login.view.client.html",
+                controller: "LoginController",
+                controllerAs: "model"
+            })
     }
 })();

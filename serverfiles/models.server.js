@@ -3,19 +3,13 @@
  */
 module.exports = function (app, mongoose,passport) {
     var userModel = require("./model/user/user.model.server.js")(app, mongoose);
-    var websiteModel = require("./model/website/website.model.server")(app, mongoose);
-    var pageModel = require("./model/page/page.model.server")(app, mongoose);
-    var widgetModel = require("./model/widget/widget.model.server")(app, mongoose);
+    var appointmentModel = require("./model/appointment/appointment.model.server")(app, mongoose);
 
     var model = {
         userModel: userModel,
-        websiteModel: websiteModel,
-        pageModel: pageModel,
-        widgetModel: widgetModel
+        appointmentModel: appointmentModel
     };
 
     require("./services/user.service.server")(app, model, passport);
-    require("./services/website.service.server")(app, model);
-    require("./services/page.service.server")(app, model);
-    require("./services/widget.service.server")(app, model);
+    require("./services/appointment.service.server")(app, model);
 };

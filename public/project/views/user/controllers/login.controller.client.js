@@ -6,7 +6,7 @@
     angular
         .module("WebAppMaker")
         .controller("LoginController", loginController)
-        function loginController(UserService, $location) {
+        function loginController(UserService, $location, $rootScope) {
             var vm = this;
             vm.login = login;
 
@@ -16,18 +16,14 @@
             init();
 
             function login(user) {
-                var promise = UserService
-                    .findUserByCredentials(user.username, user.password)
+                UserService
+                    .login(user)
                     .success(function (user) {
-                        if (user != "") {
-                            $location.url("user/" + user._id);
-                        }
-                        else {
-                            vm.error = "Incorrect credentials entered";
-                        }
+                        $rootScope.currentUser = user;
+                        $location.url("/dashboard");
                     })
                     .error(function (err) {
-                        vm.error = "Incorrect credentials entered";
+                        vm.error = "Username/password does not match";
                     });
             }
         }

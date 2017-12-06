@@ -4,12 +4,20 @@
 module.exports = function(app, mongoose) {
     var userSchema = mongoose.Schema({
         username: {type: String, required: true},
+        role: {type: String, enum: ['NORMAL', 'ADMIN', 'DOCTOR', 'MANAGER'], required: true},
         email: {type: String},
-        password: {type: String, required: true},
+        password: {type: String},
         firstName: {type: String, required: true},
         lastName: {type: String, required: true},
         phone: {type: String},
-        websites: [{type: mongoose.Schema.Types.ObjectId, ref: 'WebsiteModel'}],
+        messages: [{
+            domain: {type: String},
+            username: {type: String},
+            subject: {type: String},
+            body: {type: String},
+            dateOfMessage: {type: Date},
+            senderId: {type: String}
+        }],
         dateCreated: {type: Date, default: Date.now}
     }, {collection: 'UserModel'});
 
