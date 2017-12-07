@@ -5,9 +5,12 @@
     angular
         .module("WebAppMaker")
         .controller("ProfileController", profileController)
-        function profileController($routeParams, UserService, $location) {
+        function profileController(UserService, $location, loggedin) {
             var vm = this;
-            var userId = $routeParams["uid"];
+            vm.user = loggedin.data;
+            var user = vm.user;
+            var userId = user._id;
+            vm.logout = logout();
 
             function init() {
                 var promise = UserService.findUserById(userId);
@@ -46,6 +49,14 @@
                             vm.error = "Could not delete user";
                         }
                     })
+            }
+
+            function logout() {
+                UserService
+                    .logout()
+                    .then(function (response) {
+                        $location.url("/home");
+                    });
             }
         }
 

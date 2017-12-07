@@ -112,6 +112,12 @@
                 controller: "AppointmentEditController",
                 controllerAs: "model"
             })
+            .when("/accounts", {
+                templateUrl: "views/account/templates/account.view.client.html",
+                controller: "AccountController",
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
+            })
             .otherwise("/login", {
                 templateUrl: "views/user/templates/login.view.client.html",
                 controller: "LoginController",

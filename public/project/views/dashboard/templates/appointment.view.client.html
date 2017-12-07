@@ -15,6 +15,10 @@
 <br>
 
 <div class="container">
+    <div ng-show="model.log" class="alert alert-info" role="alert">
+        {{model.log}}
+    </div>
+
     <div class="col-xs-3">
         <button class="btn btn-block btn-primary wrap-text" ng-click="vm.bookAppt = true;">Book a new Appointment</button>
     </div>
@@ -22,6 +26,12 @@
     <div class="col-xs-3">
         <button class="btn btn-block btn-info wrap-text" ng-click="model.showAllAppointments()">
             List all Appointments
+        </button>
+    </div>
+
+    <div class="col-xs-3">
+        <button class="btn btn-block btn-info wrap-text" ng-click="model.showMyAppointments()">
+            List my Appointments
         </button>
     </div>
 
@@ -48,6 +58,12 @@
                 <th>Description</th>
                 <th>Date of Appointment</th>
                 <th>Date Created</th>
+                <th ng-hide="model.bool" ><span ng-click="model.addUser = true; model.bool = true"
+                                                class="glyphicon glyphicon-plus"></span></th>
+                <th ng-hide="!model.bool"><span ng-click="model.createUser(model.newuser)"
+                                                class="glyphicon glyphicon-ok"></span></th>
+                <th ng-hide="!model.bool"><span ng-click="model.addUser = false; model.bool = false"
+                                                class="glyphicon glyphicon-remove"></span></th>
             </tr>
             </thead>
 

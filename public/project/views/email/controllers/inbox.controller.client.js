@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("InboxController", InboxController);
-    function InboxController($rootScope, UserService, loggedin, $location) {
+    function InboxController(UserService, loggedin, $location) {
         vm = this;
         vm.user = loggedin.data;
         var user = vm.user;
@@ -42,7 +42,6 @@
             UserService
                 .logout()
                 .then(function (response) {
-                    $rootScope.currentUser = null;
                     $location.url("/home");
                 });
         }

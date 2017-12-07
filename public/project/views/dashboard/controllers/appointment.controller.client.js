@@ -6,7 +6,7 @@
     angular
         .module("WebAppMaker")
         .controller("AppointmentController", AppointmentController);
-    function AppointmentController(UserService, AppointmentService, $location, $rootScope, loggedin) {
+    function AppointmentController(UserService, AppointmentService, $location, loggedin) {
         var vm = this;
         vm.log = "";
         vm.user = loggedin.data;
@@ -17,6 +17,9 @@
         vm.makeAppointment = makeAppointment;
         vm.showMyAppointments = showMyAppointments;
         vm.showAllAppointments = showAllAppointments;
+        // vm.updateAppointment = updateAppointment;
+        
+        
         vm.logout = logout;
 
         function init() {
@@ -28,30 +31,13 @@
         function makeAppointment(appt) {
             AppointmentService
                 .makeAppointments(appt)
-                .success(function (appnt) {
+                .success(function (appt) {
                     vm.log = "Success!";
+                    vm.bookAppt = false;
                 })
                 .error(function (err) {
                     vm.log = "Some other issue";
                 });
-
-
-            // AppointmentService
-            //     .findAppointmentByDoctorAndDate(appt.dname, appt.date)
-            //     .success(function () {
-            //         AppointmentService
-            //             .makeAppointments(appt)
-            //             .success(function (appnt) {
-            //
-            //             })
-            //             .error(function (err) {
-            //                 vm.log = "Some other issue";
-            //             });
-            //     })
-            //     .error(function (err) {
-            //         vm.log = "Doctor already booked for that date";
-            //     })
-
         }
 
         function showMyAppointments() {
@@ -72,11 +58,11 @@
                 });
         }
 
+
         function logout() {
             UserService
                 .logout()
                 .then(function (response) {
-                    $rootScope.currentUser = null;
                     $location.url("/home");
                 });
         }

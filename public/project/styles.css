@@ -91,3 +91,9 @@ a:hover {
     white-space: normal;
 }
 
+.card {
+    height: 150px;
+    line-height: 130px;
+    margin-bottom: 10px;
+}
+
