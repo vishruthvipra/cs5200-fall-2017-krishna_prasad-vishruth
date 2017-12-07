@@ -31,24 +31,56 @@
         init();
 
         function makeAppointment(appt) {
-            AppointmentService
-                .makeAppointments(appt)
-                .success(function (appt) {
-                    vm.log = "Success!";
-                    vm.bookAppt = false;
-                    showMyAppointments();
+            UserService
+                .findUserByUsername(appt.docName)
+                .success(function (user) {
+                    if (user && user.role === "DOCTOR") {
+                        console.log("came here");
+                        // AppointmentService
+                        //     .findAppointmentsByName(appt.patName, "PATIENT")
+                        //     .success(function (status) {
+                        //         if (status) {
+                        //             AppointmentService
+                        //                 .makeAppointments(appt)
+                        //                 .success(function (appt) {
+                        //                     vm.log = "Success!";
+                        //                     vm.bookAppt = false;
+                        //                     showMyAppointments();
+                        //                 })
+                        //                 .error(function (err) {
+                        //                     vm.log = "Could not book for some issue";
+                        //                 });
+                        //         }
+                        //         else {
+                        //             vm.log = "Patient not found";
+                        //         }
+                        //     });
+                    }
+                    else {
+                        console.log(user);
+                        vm.log = "Doctor not found";
+                    }
                 })
                 .error(function (err) {
-                    vm.log = "Some other issue";
+                    vm.log = "No user found";
                 });
         }
 
-        function showMyAppointments() {
-            AppointmentService
-                .findAppointmentsByName(username, role)
-                .success(function (appt) {
-                    vm.searchResults = appt;
-                });
+        function showMyAppointments(pat) {
+            if (pat) {
+                AppointmentService
+                    .findAppointmentsByName(username, "PATIENT")
+                    .success(function (appt) {
+                        vm.searchResults = appt;
+                    });
+            }
+            else {
+                AppointmentService
+                    .findAppointmentsByName(username, role)
+                    .success(function (appt) {
+                        vm.searchResults = appt;
+                    });
+            }
         }
 
         function showAllAppointments() {

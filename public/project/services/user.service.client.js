@@ -15,6 +15,7 @@
             "findUserById": findUserById,
             "findUserByUsername": findUserByUsername,
             "findUserByCredentials": findUserByCredentials,
+            "createUser": createUser,
             "updateUser": updateUser,
             "deleteUser": deleteUser,
             "addMessage": addMessage,
@@ -45,6 +46,10 @@
             return $http.get("/api/user?username=" + username + "&password=" + password);
         }
 
+        function createUser(user) {
+            return $http.post("/api/createuser", user);
+        }
+
         function updateUser(userId, user) {
             return $http.put("/api/user/" + userId, user);
         }
@@ -54,7 +59,7 @@
         }
 
         function findUserByUsername(username) {
-            return $http.get("/api/user?username=" + username);
+            return $http.get("/api/user/uname?username=" + username);
         }
 
         function addMessage(userId, message) {

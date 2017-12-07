@@ -21,7 +21,7 @@
         <strong>Error!</strong> {{model.error}}
     </div>
 
-    <form>
+    <form class="text-white">
 
         <div class="form-group">
             <label for="username">Username</label>
@@ -48,15 +48,19 @@
 
     </form>
 
-    <a class="btn btn-danger  btn-block" ng-click="model.logout()">Logout</a>
-    <a class="btn btn-danger  btn-block" ng-click="model.deleteUser(user)">Delete Account</a>
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-xs-6">
+            <a class="btn btn-warning btn-block login-card" ng-click="model.logout()">Logout</a>
+        </div>
+        <div class="col-xs-6">
+            <a class="btn btn-danger btn-block login-card" ng-click="model.deleteUser(user)">Delete Account</a>
+        </div>
+        </div>
+    </div>
 
 </div>
 
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="navbar-header pull-right">
-        <a class="navbar-brand" href="#/dashboard">
-            <span class="pull-right glyphicon glyphicon-home"></span>
-        </a>
-    </div>
-</nav>
+<a class="navbar-brand wrap-text text-centre navbar btn-primary active navbar-fixed-bottom" href="#/dashboard">
+    Dashboard
+</a>

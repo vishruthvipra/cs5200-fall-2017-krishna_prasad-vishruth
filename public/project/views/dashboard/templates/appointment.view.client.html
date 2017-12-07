@@ -21,15 +21,27 @@
         {{model.log}}
     </div>
 
-    <div class="col-xs-6">
+    <div ng-show="model.user.role === 'MANAGER'" class="col-xs-6">
         <button class="btn btn-block btn-info wrap-text" ng-click="model.showAllAppointments()">
             List all Appointments
         </button>
     </div>
 
-    <div class="col-xs-6">
+    <div ng-show="model.user.role === 'MANAGER'" class="col-xs-6">
         <button class="btn btn-block btn-info wrap-text" ng-click="model.showMyAppointments()">
             List my Appointments
+        </button>
+    </div>
+
+    <div ng-show="model.user.role === 'DOCTOR'" class="col-xs-6">
+        <button class="btn btn-block btn-info wrap-text" ng-click="model.showMyAppointments()">
+            List Appointments where I am a Doctor
+        </button>
+    </div>
+
+    <div ng-show="model.user.role === 'DOCTOR'" class="col-xs-6">
+        <button class="btn btn-block btn-info wrap-text" ng-click="model.showMyAppointments(true)">
+            List Appointments where I am a Patient
         </button>
     </div>
 
@@ -95,7 +107,7 @@
                     <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
                 </td>
 
-                <td ng-show="search.editfields">
+                <td ng-show="model.user.role !== 'NORMAL' && search.editfields">
                     <span ng-click="model.updateAppointment(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
                 </td>
 
@@ -103,7 +115,7 @@
                     <span ng-click="search.editfields = false" class="glyphicon glyphicon-remove"></span>
                 </td>
 
-                <td ng-hide="search.editfields">
+                <td ng-hide="model.user.role !== 'MANAGER' || search.editfields">
                     <span ng-click="model.deleteAppointment(search)" class="glyphicon glyphicon-trash"></span>
                 </td>
             </tr>
@@ -112,12 +124,7 @@
     </div>
 </div>
 
-
-
-
-
-
-<div ng-show="model.bookAppt" class="container-fluid">
+<div ng-show="model.bookAppt" class="container-fluid text-white">
     <h3>Book a new appointment</h3>
     <hr>
     <form>
