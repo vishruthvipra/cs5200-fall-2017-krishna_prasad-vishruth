@@ -96,22 +96,6 @@
                 controllerAs: "model",
                 resolve: {loggedin: checkLoggedIn }
             })
-            .when("/appointmentlist", {
-                templateUrl: "views/appointment/templates/appointment-list.view.client.html",
-                controller: "AppointmentListController",
-                controllerAs: "model",
-                resolve: { loggedin: checkLoggedIn }
-            })
-            .when("/appointmentnew", {
-                templateUrl: "views/appointment/templates/appointment-new.view.client.html",
-                controller: "AppointmentNewController",
-                controllerAs: "model"
-            })
-            .when("/appointmentedit", {
-                templateUrl: "views/appointment/templates/appointment-edit.view.client.html",
-                controller: "AppointmentEditController",
-                controllerAs: "model"
-            })
             .when("/accounts", {
                 templateUrl: "views/account/templates/account.view.client.html",
                 controller: "AccountController",

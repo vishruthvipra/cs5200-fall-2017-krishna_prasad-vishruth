@@ -8,9 +8,11 @@ module.exports = function (app, mongoose) {
 
     var api = {
         makeAppointment: makeAppointment,
-        findAppointmentsByDocId: findAppointmentsByDocId,
-        findAppointmentsByPatId: findAppointmentsByPatId,
-        findAllAppointments: findAllAppointments
+        findAppointmentsByDocName: findAppointmentsByDocName,
+        findAppointmentsByPatName: findAppointmentsByPatName,
+        findAllAppointments: findAllAppointments,
+        updateAppointment: updateAppointment,
+        deleteAppointment: deleteAppointment
     };
     return api;
 
@@ -26,9 +28,9 @@ module.exports = function (app, mongoose) {
         return deferred.promise;
     }
 
-    function findAppointmentsByDocId(docId) {
+    function findAppointmentsByDocName(docName) {
         var deferred = q.defer();
-        appointmentModel.findOne({docId: docId}, function (err, appt) {
+        appointmentModel.find({docName: docName}, function (err, appt) {
             if(err) {
                 deferred.reject(new Error(err));
             } else {
@@ -38,9 +40,9 @@ module.exports = function (app, mongoose) {
         return deferred.promise;
     }
 
-    function findAppointmentsByPatId(patId) {
+    function findAppointmentsByPatName(patName) {
         var deferred = q.defer();
-        appointmentModel.find({patId: patId}, function (err, appt) {
+        appointmentModel.find({patName: patName}, function (err, appt) {
             if(err) {
                 deferred.reject(new Error(err));
             } else {
@@ -57,6 +59,30 @@ module.exports = function (app, mongoose) {
                 deferred.reject(new Error(err));
             } else {
                 deferred.resolve(appt);
+            }
+        });
+        return deferred.promise;
+    }
+    
+    function updateAppointment(appointmentId, appt) {
+        var deferred = q.defer();
+        appointmentModel.update({_id: appointmentId}, {$set: appt}, function (err, status) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(status);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function deleteAppointment(appointmentId) {
+        var deferred = q.defer();
+        appointmentModel.remove({_id: appointmentId}, function (err, status) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(status);
             }
         });
         return deferred.promise;

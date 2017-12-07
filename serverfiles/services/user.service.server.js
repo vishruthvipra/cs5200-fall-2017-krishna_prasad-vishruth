@@ -21,7 +21,6 @@ module.exports = function (app, model, passport) {
     app.delete("/api/user/:userId/message/:messageId", deleteMessage);
     app.get("/api/user", findUser);
     app.get("/api/user/:userId", findUserById);
-    app.post("/api/createuser", createUser);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
 
@@ -121,21 +120,6 @@ module.exports = function (app, model, passport) {
                             res.json(user);
                         }
                     });
-                }
-            });
-    }
-
-    function createUser(req, res) {
-        var user = req.body;
-        user.password = bcrypt.hashSync(user.password);
-        userModel
-            .createUser(user)
-            .then(function (user) {
-                if (user) {
-                    res.json(user);
-                }
-                else {
-                    res.status(400).send(err);
                 }
             });
     }

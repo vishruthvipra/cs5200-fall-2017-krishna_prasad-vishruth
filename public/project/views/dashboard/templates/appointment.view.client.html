@@ -1,5 +1,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
-
+    <div class="navbar-brand">
+        Appointments
+    </div>
     <div class="navbar-header pull-right">
         <a class="navbar-brand" href="#/profile">
             <span class="pull-right glyphicon glyphicon-user"></span>
@@ -19,29 +21,18 @@
         {{model.log}}
     </div>
 
-    <div class="col-xs-3">
-        <button class="btn btn-block btn-primary wrap-text" ng-click="vm.bookAppt = true;">Book a new Appointment</button>
-    </div>
-
-    <div class="col-xs-3">
+    <div class="col-xs-6">
         <button class="btn btn-block btn-info wrap-text" ng-click="model.showAllAppointments()">
             List all Appointments
         </button>
     </div>
 
-    <div class="col-xs-3">
+    <div class="col-xs-6">
         <button class="btn btn-block btn-info wrap-text" ng-click="model.showMyAppointments()">
             List my Appointments
         </button>
     </div>
 
-    <div class="col-xs-3">
-        <button class="btn btn-block btn-warning wrap-text">Update an Appointment</button>
-    </div>
-
-    <div class="col-xs-3">
-        <button class="btn btn-block btn-danger wrap-text">Delete an Appointment</button>
-    </div>
 </div>
 
 <br>
@@ -58,11 +49,11 @@
                 <th>Description</th>
                 <th>Date of Appointment</th>
                 <th>Date Created</th>
-                <th ng-hide="model.bool" ><span ng-click="model.addUser = true; model.bool = true"
+                <th ng-hide="model.bool" ><span ng-click="model.bookAppt = true; model.bool = true"
                                                 class="glyphicon glyphicon-plus"></span></th>
-                <th ng-hide="!model.bool"><span ng-click="model.createUser(model.newuser)"
+                <th ng-hide="!model.bool"><span ng-click="model.makeAppointment(model.newappt)"
                                                 class="glyphicon glyphicon-ok"></span></th>
-                <th ng-hide="!model.bool"><span ng-click="model.addUser = false; model.bool = false"
+                <th ng-hide="!model.bool"><span ng-click="model.bookAppt = false; model.bool = false"
                                                 class="glyphicon glyphicon-remove"></span></th>
             </tr>
             </thead>
@@ -71,12 +62,50 @@
             <tr class="success">
 
                 <td>{{search._id}}</td>
-                <td>{{search.docName}}</td>
-                <td>{{search.patName}}</td>
-                <td>{{search.description}}</td>
-                <td>{{search.dateOfAppt}}</td>
+                <td ng-show="search.editfields">
+                    <input
+                            ng-model="model.search.docName"
+                            type="text"
+                            class="form-control"
+                            placeholder="john"/></td>
+                <td ng-hide="search.editfields">{{search.docName}}</td>
+                <td ng-show="search.editfields">
+                    <input
+                            ng-model="model.search.patName"
+                            type="text"
+                            class="form-control"
+                            placeholder="blake"/></td>
+                <td ng-hide="search.editfields">{{search.patName}}</td>
+                <td ng-show="search.editfields">
+                    <input
+                            ng-model="model.search.description"
+                            type="text"
+                            class="form-control"
+                            placeholder="lower neck pain"/></td>
+                <td ng-hide="search.editfields">{{search.description}}</td>
+                <td ng-show="search.editfields">
+                    <input
+                            ng-model="model.search.dateOfAppt"
+                            type="date"
+                            class="form-control"
+                            placeholder="john"/></td>
+                <td ng-hide="search.editfields">{{search.dateOfAppt}}</td>
                 <td>{{search.dateCreated}}</td>
+                <td ng-hide="search.editfields">
+                    <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
+                </td>
 
+                <td ng-show="search.editfields">
+                    <span ng-click="model.updateAppointment(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
+                </td>
+
+                <td ng-show="search.editfields">
+                    <span ng-click="search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                </td>
+
+                <td ng-hide="search.editfields">
+                    <span ng-click="model.deleteAppointment(search)" class="glyphicon glyphicon-trash"></span>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -84,35 +113,38 @@
 </div>
 
 
-<div ng-show="vm.bookAppt" class="container-fluid">
-    <br>
-    <br>
+
+
+
+
+<div ng-show="model.bookAppt" class="container-fluid">
+    <h3>Book a new appointment</h3>
     <hr>
     <form>
         <div class="form-group">
             <label for="dname">Doctor Username</label>
-            <input ng-model="appt.docName" type="text"
+            <input ng-model="model.newappt.docName" type="text"
                    class="form-control" id="dname"
                    placeholder="Doctor Name">
 
             <label for="dname">Patient Username</label>
-            <input ng-model="appt.patName" type="text"
+            <input ng-model="model.newappt.patName" type="text"
                    class="form-control" id="pname"
                    placeholder="Patient Name">
 
             <label for="des">Description</label>
-            <textarea ng-model="appt.description" type="text"
+            <textarea ng-model="model.newappt.description" type="text"
                    class="form-control" id="des" rows="3"
                    placeholder="Lower neck pain">
             </textarea>
 
             <label for="date">Book an Appointment For</label>
-            <input ng-model="appt.dateOfAppt" type="date"
+            <input ng-model="model.newappt.dateOfAppt" type="date"
                    class="form-control" id="date"
                    placeholder="Appointment Date [dd/mm/yyyy]">
         </div>
     </form>
-    <button class="btn btn-block btn-primary" ng-click="model.makeAppointment(appt)">Book!</button>
+
 </div>
 <br>
 <br>
@@ -120,10 +152,6 @@
 <br>
 <br>
 
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="navbar-header pull-right">
-        <a class="navbar-brand" href="#/dashboard">
-            <span class="pull-right glyphicon glyphicon-home"></span>
-        </a>
-    </div>
-</nav>
+<a class="navbar-brand wrap-text text-centre navbar btn-primary active navbar-fixed-bottom" href="#/dashboard">
+    Dashboard
+</a>

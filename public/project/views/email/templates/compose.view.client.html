@@ -1,4 +1,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-brand">
+        Compose
+    </div>
     <div class="navbar-header pull-right">
         <a class="navbar-brand" href="#/inbox">
             Inbox
@@ -41,10 +44,6 @@
     <button ng-click="model.sendMessage(model.message)" class="wrap-text btn btn-info btn-block">Submit</button>
 </div>
 
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="navbar-header pull-right">
-        <a class="navbar-brand" href="#/dashboard">
-            <span class="pull-right glyphicon glyphicon-home"></span>
-        </a>
-    </div>
-</nav>
+<a class="navbar-brand wrap-text text-centre navbar btn-primary active navbar-fixed-bottom" href="#/dashboard">
+    Dashboard
+</a>

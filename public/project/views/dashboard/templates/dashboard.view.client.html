@@ -1,5 +1,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
-
+    <div class="navbar-brand">
+        Dashboard
+    </div>
     <div class="navbar-header pull-right">
         <a class="navbar-brand" href="#/profile">
             <span class="pull-right glyphicon glyphicon-user"></span>
@@ -24,6 +26,6 @@
     </div>
 
     <div>
-        <a class="btn btn-block btn-danger card" href="#/accounts">Manage Accounts</a>
+        <a ng-show="model.user.role === 'ADMIN'" class="btn btn-block btn-danger card" href="#/accounts">Manage Accounts</a>
     </div>
 </div>

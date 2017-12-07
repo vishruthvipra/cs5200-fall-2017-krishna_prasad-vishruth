@@ -13,11 +13,13 @@
         var user = vm.user;
         var userId = user._id;
         var role = user.role;
+        var username = user.username;
 
         vm.makeAppointment = makeAppointment;
         vm.showMyAppointments = showMyAppointments;
         vm.showAllAppointments = showAllAppointments;
-        // vm.updateAppointment = updateAppointment;
+        vm.updateAppointment = updateAppointment;
+        vm.deleteAppointment = deleteAppointment;
         
         
         vm.logout = logout;
@@ -34,6 +36,7 @@
                 .success(function (appt) {
                     vm.log = "Success!";
                     vm.bookAppt = false;
+                    showMyAppointments();
                 })
                 .error(function (err) {
                     vm.log = "Some other issue";
@@ -42,10 +45,8 @@
 
         function showMyAppointments() {
             AppointmentService
-                .findAppointmentsById(userId, role)
+                .findAppointmentsByName(username, role)
                 .success(function (appt) {
-                    var d = new Date(appt.dateCreated);
-                    appt.dateCreated = d.toString();
                     vm.searchResults = appt;
                 });
         }
@@ -58,6 +59,63 @@
                 });
         }
 
+
+        function updateAppointment(oldAppointmentId, updAppt) {
+            vm.editfields = false;
+            var update = AppointmentService
+                .updateAppointment(oldAppointmentId, updAppt)
+                .success(function (appt) {
+                    if (update !== null) {
+                        showMyAppointments();
+                    }
+                })
+                .error(function (err) {
+                    vm.error = "Invalid userId";
+                });
+        }
+
+        function deleteAppointment(delAppt) {
+            var update = AppointmentService
+                .deleteAppointment(delAppt._id)
+                .success(function (appt) {
+                    if (appt !== null) {
+                        vm.changeUser = false;
+                        showMyAppointments();
+                    }
+                })
+                .error(function (err) {
+                    vm.error = "Invalid userId";
+                })
+        }
+
+        function startSearch(searchValue, searchText) {
+            vm.search = true;
+            vm.spinner = true;
+            if (searchValue === 1) {
+                var promise = UserService.findUserById(searchText);
+                promise
+                    .success(function (user) {
+                        vm.searchResults = null;
+                        vm.search = user;
+                    })
+                    .error(function (err) {
+                        vm.error = "Incorrect userId";
+                    });
+            }
+            else {
+                var promise = UserService.findUserByUsername(searchText);
+                promise
+                    .success(function (user) {
+                        vm.searchResults = null;
+                        vm.search = user;
+                    })
+                    .error(function (err) {
+                        vm.error = "Incorrect username";
+                    });
+            }
+            vm.spinner = false;
+
+        }
 
         function logout() {
             UserService

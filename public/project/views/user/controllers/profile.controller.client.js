@@ -10,7 +10,7 @@
             vm.user = loggedin.data;
             var user = vm.user;
             var userId = user._id;
-            vm.logout = logout();
+            vm.logout = logout;
 
             function init() {
                 var promise = UserService.findUserById(userId);

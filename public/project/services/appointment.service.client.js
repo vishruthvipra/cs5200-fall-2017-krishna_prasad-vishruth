@@ -8,8 +8,10 @@
         function AppointmentService($http) {
             var api = {
                 "makeAppointments": makeAppointments,
-                "findAppointmentsById": findAppointmentsById,
-                "findAllAppointments": findAllAppointments
+                "findAppointmentsByName": findAppointmentsByName,
+                "findAllAppointments": findAllAppointments,
+                "updateAppointment": updateAppointment,
+                "deleteAppointment": deleteAppointment
             };
             return api;
 
@@ -17,12 +19,20 @@
                 return $http.post("/api/appointment", appt);
             }
 
-            function findAppointmentsById(userId, role) {
-                return $http.get("/api/user/" + userId + "/appointment/role/" + role);
+            function findAppointmentsByName(username, role) {
+                return $http.get("/api/user/" + username + "/appointment/role/" + role);
             }
 
             function findAllAppointments() {
                 return $http.get("/api/appointment/");
+            }
+
+            function updateAppointment(apptId, appt) {
+                return $http.put("/api/appointment/" + apptId, appt);
+            }
+            
+            function deleteAppointment(apptId) {
+                return $http.delete("/api/appointment/" + apptId);
             }
         }
 })();
