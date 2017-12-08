@@ -3,10 +3,10 @@
  */
 module.exports = function(app, mongoose) {
     var appointmentSchema = mongoose.Schema({
-        docName: {type: String},
-        patName: {type: String},
+        docName: {type: String, required: true},
+        patName: {type: String, required: true},
         description: {type: String},
-        dateOfAppt: {type: Date},
+        dateOfAppt: {type: Date, required: true},
         dateCreated: {type: Date, default: Date.now}
     }, {collection: 'AppointmentModel'});
 

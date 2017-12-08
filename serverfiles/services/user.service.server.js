@@ -16,7 +16,6 @@ module.exports = function (app, model, passport) {
     app.get('/api/useradmin', checkAdmin);
     app.get('/api/usertadmin', checkTAdmin);
     app.get('/api/userwadmin', checkWAdmin);
-    app.get("/api/user/uname/:username", findUserByUsername);
     app.post('/api/register', register);
     app.put("/api/user/:userId/message", updateMessage);
     app.delete("/api/user/:userId/message/:messageId", deleteMessage);
@@ -230,7 +229,6 @@ module.exports = function (app, model, passport) {
     function updateUser(req, res) {
         var userId = req.params.userId;
         var user = req.body;
-        user.password = bcrypt.hashSync(user.password);
         userModel
             .updateUser(userId, user)
             .then(function (status) {

@@ -18,6 +18,7 @@ module.exports = function(app, mongoose) {
             dateOfMessage: {type: Date},
             senderId: {type: String}
         }],
+        appointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'AppointmentModel'}],
         dateCreated: {type: Date, default: Date.now}
     }, {collection: 'UserModel'});
 

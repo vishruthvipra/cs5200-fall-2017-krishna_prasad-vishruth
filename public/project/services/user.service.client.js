@@ -59,7 +59,7 @@
         }
 
         function findUserByUsername(username) {
-            return $http.get("/api/user/uname?username=" + username);
+            return $http.get("/api/user?username=" + username);
         }
 
         function addMessage(userId, message) {
