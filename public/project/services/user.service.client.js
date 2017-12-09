@@ -20,7 +20,8 @@
             "deleteUser": deleteUser,
             "addMessage": addMessage,
             "deleteMessage": deleteMessage,
-            "findAllUsers": findAllUsers
+            "findAllUsers": findAllUsers,
+            "findAllDoctors": findAllDoctors
         };
 
         return api;
@@ -72,6 +73,10 @@
 
         function findAllUsers() {
             return $http.get("/api/user");
+        }
+
+        function findAllDoctors() {
+            return $http.get("/api/doc/");
         }
     }
 })();

@@ -103,7 +103,7 @@
                             placeholder="john"/></td>
                 <td ng-hide="search.editfields">{{search.dateOfAppt}}</td>
                 <td>{{search.dateCreated}}</td>
-                <td ng-hide="search.editfields">
+                <td ng-hide="model.user.role === 'NORMAL' || search.editfields">
                     <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
                 </td>
 
@@ -130,11 +130,18 @@
     <form>
         <div class="form-group">
             <label for="dname">Doctor Username</label>
-            <input ng-model="model.newappt.docName" type="text"
-                   class="form-control" id="dname"
-                   placeholder="Doctor Name">
+            <div ng-repeat="doc in model.doctors">
+                <label class="form-control">
+                    <input type="radio"
+                           ng-value="doc.username"
+                           ng-click="model.newappt.docName = doc.username; model.newappt.appointments = doc.appointments"
+                           ng-model="model.newappt.docName"
+                           id="dname">
+                    {{doc.firstName}} {{doc.lastName}} | {{doc.department}}
+                </label>
+            </div>
 
-            <label for="dname">Patient Username</label>
+            <label for="pname">Patient Username</label>
             <input ng-model="model.newappt.patName" type="text"
                    class="form-control" id="pname"
                    placeholder="Patient Name">

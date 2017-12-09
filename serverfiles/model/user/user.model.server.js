@@ -12,6 +12,7 @@ module.exports = function (app, mongoose) {
         findUserByUsername: findUserByUsername,
         findUserByCredentials: findUserByCredentials,
         findAllUsers: findAllUsers,
+        findAllDoctors: findAllDoctors,
         updateUser: updateUser,
         deleteUser: deleteUser,
         updateMessage: updateMessage,
@@ -75,6 +76,20 @@ module.exports = function (app, mongoose) {
     function findAllUsers() {
         var deferred = q.defer();
         userModel.find(function (err, status) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else if(status) {
+                deferred.resolve(status);
+            } else {
+                deferred.reject(new Error(err));
+            }
+        });
+        return deferred.promise;
+    }
+
+    function findAllDoctors() {
+        var deferred = q.defer();
+        userModel.find({role: "DOCTOR"}, function (err, status) {
             if (err) {
                 deferred.reject(new Error(err));
             } else if(status) {

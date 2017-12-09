@@ -21,53 +21,58 @@
         vm.updateAppointment = updateAppointment;
         vm.deleteAppointment = deleteAppointment;
 
-
         vm.logout = logout;
 
         function init() {
             vm.bookAppt = false;
             showMyAppointments();
+            populateDoctors();
         }
         init();
+
+        function populateDoctors() {
+            vm.drop = false;
+
+            UserService
+                .findAllDoctors()
+                .success(function (doctors) {
+                    vm.doctors = doctors;
+                });
+        }
+
 
         function makeAppointment(appt) {
             UserService
                 .findUserByUsername(appt.docName)
                 .success(function (doctor) {
-                    if (doctor && doctor.role === "DOCTOR") {
-                        UserService
-                            .findUserByUsername(appt.patName)
-                            .success(function (patient) {
-                                if (patient) {
-                                    AppointmentService
-                                        .makeAppointments(appt)
-                                        .success(function (appt) {
-                                            doctor.appointments.push(appt._id);
-                                            updateUser(doctor._id, doctor);
+                    UserService
+                        .findUserByUsername(appt.patName)
+                        .success(function (patient) {
+                            if (patient) {
+                                AppointmentService
+                                    .makeAppointments(appt)
+                                    .success(function (appt) {
+                                        doctor.appointments.push(appt._id);
+                                        updateUser(doctor._id, doctor);
 
-                                            patient.appointments.push(appt._id);
-                                            updateUser(patient._id, patient);
+                                        patient.appointments.push(appt._id);
+                                        updateUser(patient._id, patient);
 
-                                            vm.log = "Success!";
-                                            showMyAppointments();
-                                            vm.bookAppt = false;
-                                            vm.bool = false;
-                                        })
-                                        .error(function (err) {
-                                            vm.log = "Please fill all fields";
-                                            vm.bookAppt = false;
-                                            vm.bool = false;
-                                        });
-                                }
-                                else {
-                                    vm.log = "Patient not found";
-                                }
-                            });
-                    }
-                    else {
-                        console.log(doctor);
-                        vm.log = "Doctor not found";
-                    }
+                                        vm.log = "Success!";
+                                        showMyAppointments();
+                                        vm.bookAppt = false;
+                                        vm.bool = false;
+                                    })
+                                    .error(function (err) {
+                                        vm.log = "Please fill all fields";
+                                        vm.bookAppt = false;
+                                        vm.bool = false;
+                                    });
+                            }
+                            else {
+                                vm.log = "Patient not found";
+                            }
+                        });
                 })
                 .error(function (err) {
                     vm.log = "No user found";

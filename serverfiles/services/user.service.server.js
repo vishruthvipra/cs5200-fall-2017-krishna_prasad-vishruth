@@ -24,6 +24,7 @@ module.exports = function (app, model, passport) {
     app.post("/api/createuser", createUser);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
+    app.get("/api/doc/", findAllDoctors);
 
     var userModel = model.userModel;
 
@@ -244,6 +245,16 @@ module.exports = function (app, model, passport) {
             .deleteUser(userId)
             .then(function (status) {
                 res.sendStatus(200).send(status);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
+    }
+
+    function findAllDoctors(req, res) {
+        userModel
+            .findAllDoctors()
+            .then(function (doctors) {
+                res.json(doctors);
             }, function (error) {
                 res.sendStatus(500).send(error);
             });
