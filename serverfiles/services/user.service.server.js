@@ -70,7 +70,7 @@ module.exports = function (app, model, passport) {
 
     function checkAdmin(req, res) {
         var user = req.user;
-        if (user.role === null || user.role === "ADMIN") {
+        if((req.isAuthenticated() ? req.user : '0') !== '0' && (user.role === null || user.role === "ADMIN")) {
             res.json(user);
         }
         else {
@@ -220,15 +220,14 @@ module.exports = function (app, model, passport) {
 
     function deleteUser(req, res) {
         var userId = req.params.userId;
-
-        userModel
-            .findUserById(req, res)
-            .then(function (user) {
-                var oldappt = user.appointments;
-                for (var appt in oldappt) {
-                    appointmentModel
-                        .deleteAppointment(appt);
-                }
+        // userModel
+        //     .findUserById(userId)
+        //     .then(function (user) {
+        //         var oldappt = user.appointments;
+        //         for (var i = 0; i < oldappt.length; i++) {
+        //             appointmentModel
+        //                 .deleteAppointment(oldappt[i]);
+        //         }
                 userModel
                     .deleteUser(userId)
                     .then(function (status) {
@@ -236,7 +235,7 @@ module.exports = function (app, model, passport) {
                     }, function (error) {
                         res.sendStatus(500).send(error);
                     });
-            });
+            // });
     }
 
     function findAllDoctors(req, res) {

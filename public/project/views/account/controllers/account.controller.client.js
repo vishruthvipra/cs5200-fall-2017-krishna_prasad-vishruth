@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("AccountController", AccountController);
-    function AccountController(UserService, loggedin, $location) {
+    function AccountController(UserService, AppointmentService, loggedin, $location) {
         var vm = this;
         vm.user = loggedin.data;
         var user = vm.user;
@@ -53,6 +53,8 @@
                                 UserService.findAllUsers()
                                     .success(function (user) {
                                         vm.searchResults = user;
+                                        vm.addUser = false;
+                                        vm.bool = false;
                                     });
                             })
                             .error(function (err) {
@@ -82,20 +84,35 @@
         }
 
         function deleteUser(delUser) {
-            var update = UserService
-                .deleteUser(delUser._id)
+
+            UserService
+                .findUserById(delUser._id)
                 .success(function (user) {
-                    if (user !== null) {
-                        vm.changeUser = false;
-                        UserService.findAllUsers()
-                            .success(function (user) {
-                                vm.searchResults = user;
+                    var oldappt = user.appointments;
+                    for (var i = 0; i < oldappt.length; i++) {
+                        AppointmentService
+                            .deleteAppointment(oldappt[i])
+                            .success(function () {
+                                console.log("deleted", oldappt[i]);
                             });
                     }
-                })
-                .error(function (err) {
-                    vm.error = "Invalid userId";
-                })
+                    UserService
+                        .deleteUser(delUser._id)
+                        .success(function (user) {
+                            if (user !== null) {
+                                vm.changeUser = false;
+                                UserService.findAllUsers()
+                                    .success(function (user) {
+                                        vm.searchResults = user;
+                                    });
+                            }
+                        })
+                        .error(function (err) {
+                            vm.error = "Invalid userId";
+                        })
+                });
+
+
         }
 
         function startSearch(searchValue, searchText) {

@@ -46,6 +46,12 @@
                    placeholder="Last name">
         </div>
 
+        <div ng-show="model.user.role === 'DOCTOR'" class="form-group">
+            <label for="dept">Department</label>
+            <input ng-model="model.user.department" type="text" class="form-control" id="dept"
+                   placeholder="Neurology">
+        </div>
+
     </form>
 
     <div class="container-fluid">

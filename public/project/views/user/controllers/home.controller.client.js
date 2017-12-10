@@ -8,7 +8,6 @@
         .controller("HomeController", homeController);
         function homeController(UserService, $location) {
             var vm = this;
-            vm.editfields = false;
             vm.search = false;
 
             vm.startSearch = startSearch;

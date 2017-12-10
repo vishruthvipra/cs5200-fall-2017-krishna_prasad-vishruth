@@ -23,7 +23,7 @@
             if (user !== '0') {
                 $rootScope.currentUser = user;
             } else{
-                $location.url('/dashboard');
+                $location.url('/home');
             }
         });
     };
