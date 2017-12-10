@@ -126,3 +126,10 @@ nav {
 thead {
     background: aliceblue;
 }
+
+.design-image {
+    background-image: url("images/UML_Diagram.png");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 470px;
+}

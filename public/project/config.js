@@ -35,6 +35,11 @@
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
 
         $routeProvider
+            .when("/design", {
+                templateUrl: "views/design/design.view.client.html",
+                controller: "DesignController",
+                controllerAs: "model"
+            })
             .when("/home", {
                 templateUrl: "views/user/templates/home.view.client.html",
                 controller: "HomeController",
