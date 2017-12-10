@@ -76,23 +76,61 @@ module.exports = function (app, model) {
     function updateAppointment(req, res) {
         var appointmentId = req.params.appointmentId;
         var appt = req.body;
+
         appointmentModel
-            .updateAppointment(appointmentId, appt)
-            .then(function (status) {
-                res.sendStatus(200).send(status);
-            }, function (error) {
-                res.sendStatus(500).send(error);
+            .findAppointmentById(appointmentId)
+            .then(function (oldappt) {
+                updateUser(appointmentId, oldappt.docName, appt.docName);
+                updateUser(appointmentId, oldappt.patName, appt.patName);
+
+                appointmentModel
+                    .updateAppointment(appointmentId, appt)
+                    .then(function (status) {
+                        res.sendStatus(200).send(status);
+                    }, function (error) {
+                        res.sendStatus(500).send(error);
+                    });
+            });
+    }
+
+    function updateUser(appointmentId, oldName, newName) {
+        if (oldName !== newName) {
+            userModel
+                .findUserByUsername(newName)
+                .then(function (user) {
+                    user.appointments = user.appointments.push(appointmentId);
+                    userModel.updateUser(user._id, user);
+                    clearAppointmentId(oldName, appointmentId);
+                });
+        }
+    }
+
+    function clearAppointmentId(username, appointmentId) {
+        userModel
+            .findUserByUsername(username)
+            .then(function (user) {
+                var index = user.appointments.indexOf(appointmentId) + 1;
+                user.appointments = user.appointments.splice(index, 1);
+                userModel.updateUser(user._id, user);
             });
     }
 
     function deleteAppointment(req, res) {
         var appointmentId = req.params.appointmentId;
         appointmentModel
-            .deleteAppointment(appointmentId)
-            .then(function (status) {
-                res.sendStatus(200).send(status);
-            }, function (error) {
-                res.sendStatus(500).send(error);
+            .findAppointmentById(appointmentId)
+            .then(function (oldappt) {
+                clearAppointmentId(oldappt.docName, appointmentId);
+                clearAppointmentId(oldappt.patName, appointmentId);
+                appointmentModel
+                    .deleteAppointment(appointmentId)
+                    .then(function (status) {
+                        res.sendStatus(200).send(status);
+                    }, function (error) {
+                        res.sendStatus(500).send(error);
+                    });
             });
+
+
     }
 };

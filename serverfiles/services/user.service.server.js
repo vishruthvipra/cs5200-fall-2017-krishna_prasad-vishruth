@@ -14,8 +14,6 @@ module.exports = function (app, model, passport) {
     app.post('/api/logout', logout);
     app.get('/api/loggedin', loggedin);
     app.get('/api/useradmin', checkAdmin);
-    app.get('/api/usertadmin', checkTAdmin);
-    app.get('/api/userwadmin', checkWAdmin);
     app.post('/api/register', register);
     app.put("/api/user/:userId/message", updateMessage);
     app.delete("/api/user/:userId/message/:messageId", deleteMessage);
@@ -27,6 +25,7 @@ module.exports = function (app, model, passport) {
     app.get("/api/doc/", findAllDoctors);
 
     var userModel = model.userModel;
+    var appointmentModel = model.appointmentModel;
 
     function localStrategy(username, password, done) {
         userModel
@@ -72,26 +71,6 @@ module.exports = function (app, model, passport) {
     function checkAdmin(req, res) {
         var user = req.user;
         if (user.role === null || user.role === "ADMIN") {
-            res.json(user);
-        }
-        else {
-            res.send('0');
-        }
-    }
-
-    function checkTAdmin(req, res) {
-        var user = req.user;
-        if (user.role === "TADMIN") {
-            res.json(user);
-        }
-        else {
-            res.send('0');
-        }
-    }
-
-    function checkWAdmin(req, res) {
-        var user = req.user;
-        if (user.role === "WADMIN") {
             res.json(user);
         }
         else {
@@ -241,12 +220,22 @@ module.exports = function (app, model, passport) {
 
     function deleteUser(req, res) {
         var userId = req.params.userId;
+
         userModel
-            .deleteUser(userId)
-            .then(function (status) {
-                res.sendStatus(200).send(status);
-            }, function (error) {
-                res.sendStatus(500).send(error);
+            .findUserById(req, res)
+            .then(function (user) {
+                var oldappt = user.appointments;
+                for (var appt in oldappt) {
+                    appointmentModel
+                        .deleteAppointment(appt);
+                }
+                userModel
+                    .deleteUser(userId)
+                    .then(function (status) {
+                        res.sendStatus(200).send(status);
+                    }, function (error) {
+                        res.sendStatus(500).send(error);
+                    });
             });
     }
 

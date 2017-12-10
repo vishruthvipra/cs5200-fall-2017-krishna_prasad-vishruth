@@ -40,7 +40,6 @@
                 });
         }
 
-
         function makeAppointment(appt) {
             UserService
                 .findUserByUsername(appt.docName)
@@ -79,13 +78,10 @@
                 });
         }
 
-
         function updateUser(oldUserId, updUser) {
             UserService
                 .updateUser(oldUserId, updUser);
         }
-
-
 
         function showMyAppointments(pat) {
             if (pat) {
@@ -113,17 +109,17 @@
         }
 
 
-        function updateAppointment(oldAppointmentId, updAppt) {
+        function updateAppointment(oldAppointmentId, appt) {
             vm.editfields = false;
-            var update = AppointmentService
-                .updateAppointment(oldAppointmentId, updAppt)
-                .success(function (appt) {
-                    if (update !== null) {
+            AppointmentService
+                .updateAppointment(oldAppointmentId, appt)
+                .success(function (newappt) {
+                    if (newappt !== null) {
                         showMyAppointments();
                     }
                 })
                 .error(function (err) {
-                    vm.error = "Invalid userId";
+                    vm.log = "Please fill all fields shown";
                 });
         }
 

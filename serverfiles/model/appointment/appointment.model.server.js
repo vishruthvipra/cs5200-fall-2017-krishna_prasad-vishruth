@@ -11,6 +11,7 @@ module.exports = function (app, mongoose) {
         findAppointmentsByDocName: findAppointmentsByDocName,
         findAppointmentsByPatName: findAppointmentsByPatName,
         findAllAppointments: findAllAppointments,
+        findAppointmentById: findAppointmentById,
         updateAppointment: updateAppointment,
         deleteAppointment: deleteAppointment
     };
@@ -63,7 +64,19 @@ module.exports = function (app, mongoose) {
         });
         return deferred.promise;
     }
-    
+
+    function findAppointmentById(appointmentId) {
+        var deferred = q.defer();
+        appointmentModel.findById(appointmentId, function (err, appt) {
+            if(err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(appt);
+            }
+        });
+        return deferred.promise;
+    }
+
     function updateAppointment(appointmentId, appt) {
         var deferred = q.defer();
         appointmentModel.update({_id: appointmentId}, {$set: appt}, function (err, status) {

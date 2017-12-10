@@ -28,27 +28,6 @@
         });
     };
 
-    var checkTAdmin = function($q, $timeout, $http, $location, $rootScope) {
-        return $http.get('/api/usertadmin').success(function(user) {
-            $rootScope.errorMessage = null;
-            if (user !== '0') {
-                $rootScope.currentUser = user;
-            } else{
-                $location.url('/dashboard');
-            }
-        });
-    };
-
-    var checkWAdmin = function($q, $timeout, $http, $location, $rootScope) {
-        return $http.get('/api/userwadmin').success(function(user) {
-            $rootScope.errorMessage = null;
-            if (user !== '0') {
-                $rootScope.currentUser = user;
-            } else{
-                $location.url('/dashboard');
-            }
-        });
-    };
 
     function Config($routeProvider, $httpProvider) {
 
@@ -56,6 +35,11 @@
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
 
         $routeProvider
+            .when("/home", {
+                templateUrl: "views/user/templates/home.view.client.html",
+                controller: "HomeController",
+                controllerAs: "model"
+            })
             .when("/login", {
                 templateUrl: "views/user/templates/login.view.client.html",
                 controller: "LoginController",
@@ -100,11 +84,11 @@
                 templateUrl: "views/account/templates/account.view.client.html",
                 controller: "AccountController",
                 controllerAs: "model",
-                resolve: { loggedin: checkLoggedIn }
+                resolve: { loggedin: checkAdmin }
             })
-            .otherwise("/login", {
-                templateUrl: "views/user/templates/login.view.client.html",
-                controller: "LoginController",
+            .otherwise("/home", {
+                templateUrl: "views/user/templates/home.view.client.html",
+                controller: "HomeController",
                 controllerAs: "model"
             })
     }
