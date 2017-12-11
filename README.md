@@ -14,7 +14,7 @@
 
 2. Install node modules
 
-``npm install```
+```npm install```
 
 3. Run server.js
 
