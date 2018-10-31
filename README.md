@@ -1,4 +1,4 @@
-# cs5200-fall-2017-krishna_prasad-vishruth
+# hospital-db-app
 
 ## Steps to run the project
 
