@@ -4,7 +4,7 @@
 
 1. Please go to 
 
-```hhttps://hospital-db-app.herokuapp.com/project/#/home```
+```https://hospital-db-app.herokuapp.com/project/#/home```
 
 ## Steps to download and run
 
