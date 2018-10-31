@@ -10,7 +10,7 @@
 
 1. Please git clone this repository
 
-```git clone https://github.com/vishruthvipra/cs5200-fall-2017-krishna_prasad-vishruth.git```
+```git clone https://github.com/vishruthvipra/hospital-database.git```
 
 2. Install node modules
 
